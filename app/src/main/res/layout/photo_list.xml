@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Photos">
+
+    <ListView
+        android:id="@+id/photos_list"
+        android:layout_width="match_parent"
+        android:layout_height="492dp"
+        android:divider="@color/purple_500"
+        android:dividerHeight="1px" />
+
+    <Button
+        android:id="@+id/buttonOpen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openAlbum"
+        android:text="@string/openAlbum" />
+
+    <Button
+        android:id="@+id/buttonCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="createAlbum"
+        android:text="@string/createAlbum" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deleteAlbum"
+        android:text="@string/deleteAlbum" />
+
+    <Button
+        android:id="@+id/buttonRename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="renameAlbum"
+        android:text="@string/renameAlbum" />
+
+    <Button
+        android:id="@+id/buttonSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="searchPhotos"
+        android:text="@string/searchPhotos" />
+
+
+</LinearLayout>

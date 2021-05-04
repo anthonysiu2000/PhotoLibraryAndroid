@@ -9,8 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Photos">
+
+
         <activity
-            android:name=".MainActivity"
+            android:name=".AddRenameAlbum"
+            android:label="@string/title_activity_add_rename_album"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.Photos" />
+        </activity>
+
+
+
+
+
+
+
+        <activity
+            android:name=".Photos"
             android:label="@string/app_name"
             android:theme="@style/Theme.Photos.NoActionBar">
             <intent-filter>
