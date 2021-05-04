@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Photos">
 
     <ListView
         android:id="@+id/photos_list"
-        android:layout_width="match_parent"
-        android:layout_height="492dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:divider="@color/purple_500"
-        android:dividerHeight="1px" />
+        android:dividerHeight="1px"
+        android:gravity ="center"
+        app:layout_constraintBottom_toTopOf="@+id/buttonOpen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+    </ListView>
 
     <Button
         android:id="@+id/buttonOpen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="openAlbum"
-        android:text="@string/openAlbum" />
+        android:text="@string/openAlbum"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCreate"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/buttonCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="createAlbum"
-        android:text="@string/createAlbum" />
+        android:text="@string/createAlbum"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDelete"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/buttonDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deleteAlbum"
-        android:text="@string/deleteAlbum" />
+        android:text="@string/deleteAlbum"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRename"
+        tools:layout_editor_absoluteX="-16dp" />
 
     <Button
         android:id="@+id/buttonRename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="renameAlbum"
-        android:text="@string/renameAlbum" />
+        android:text="@string/renameAlbum"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSearch"
+        tools:layout_editor_absoluteX="-46dp" />
 
     <Button
         android:id="@+id/buttonSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:onClick="searchPhotos"
-        android:text="@string/searchPhotos" />
+        android:text="@string/searchPhotos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-16dp" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,15 @@
     <string name="confirmLabel">Confirm</string>
 
     <string name="title_activity_add_rename_album">Add/Rename Album</string>
+    <string name="title_activity_album_view">Album View</string>
+    <string name="title_activity_photo_edit">Photo Edit/Display</string>
+    <string name="title_activity_move_photo">Move Photo</string>
 
+    title_activity_photo_edit
 
+    <string name="displayPhoto">Display Photo</string>
+    <string name="addPhoto">Add Photo</string>
+    <string name="deletePhoto">Delete Photo</string>
+    <string name="movePhoto">Move Photo</string>
 
 </resources>

@@ -23,7 +23,7 @@
         android:background="@android:drawable/editbox_background" />
 
     <Button
-        android:id="@+id/movie_save"
+        android:id="@+id/album_confirm"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="40dp"

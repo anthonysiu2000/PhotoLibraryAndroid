@@ -9,8 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Photos">
-
-
+        <activity
+            android:name=".PhotoEdit"
+            android:label="@string/title_activity_photo_edit"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.AlbumView" />
+        </activity>
+        <activity
+            android:name=".MovePhoto"
+            android:label="@string/title_activity_move_photo"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.AlbumView" />
+        </activity>
+        <activity
+            android:name=".AlbumView"
+            android:label="@string/title_activity_album_view"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.Photos" />
+        </activity>
         <activity
             android:name=".AddRenameAlbum"
             android:label="@string/title_activity_add_rename_album"
@@ -19,17 +41,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.photos.Photos" />
         </activity>
-
-
-
-
-
-
-
-        <activity
-            android:name=".Photos"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Photos.NoActionBar">
+        <activity android:name=".Photos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

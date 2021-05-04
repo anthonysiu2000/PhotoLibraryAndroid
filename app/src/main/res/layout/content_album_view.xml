@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AlbumView">
+
+    <ListView
+        android:id="@+id/literal_photo_list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:divider="@color/purple_500"
+        android:dividerHeight="1px"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddP"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="2dp" />
+
+    <Button
+        android:id="@+id/buttonAddP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addPhoto"
+        android:text="@string/addPhoto"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteP"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/buttonDeleteP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deletePhoto"
+        android:text="@string/deletePhoto"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDisplayP"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/buttonDisplayP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="displayPhoto"
+        android:text="@string/displayPhoto"
+        app:layout_constraintBottom_toTopOf="@+id/buttonMoveP"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/buttonMoveP"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:onClick="movePhoto"
+        android:text="@string/movePhoto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

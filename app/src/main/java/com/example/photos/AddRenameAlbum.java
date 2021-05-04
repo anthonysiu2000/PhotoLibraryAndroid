@@ -32,6 +32,16 @@ public class AddRenameAlbum extends AppCompatActivity {
 
         // activates the up arrow
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // sets back arrow to send info back to userview
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // send back to caller
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
+            }
+        });
 
         // get the fields
         albumName = findViewById(R.id.album_name);
@@ -46,6 +56,8 @@ public class AddRenameAlbum extends AppCompatActivity {
             }
         }
     }
+
+
 
     public void confirm(View view) {
         // gather all data from text fields

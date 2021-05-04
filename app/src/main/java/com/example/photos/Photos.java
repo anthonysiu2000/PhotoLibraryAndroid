@@ -1,19 +1,15 @@
 package com.example.photos;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
+import android.graphics.Color;
 import android.view.View;
-
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -23,9 +19,11 @@ public class Photos extends AppCompatActivity {
 
     private ListView listView;
     private User user;
+    private int currIndex = -1;
+    private ArrayList<String> albumList;
 
     public static final int CREATE_ALBUM_CODE = 1;
-    public static final int RENAME_MOVIE_CODE = 2;
+    public static final int RENAME_ALBUM_CODE = 2;
     public static final int OPEN_ALBUM_CODE = 3;
     public static final int SEARCH_PHOTOS_CODE = 4;
 
@@ -35,30 +33,86 @@ public class Photos extends AppCompatActivity {
         setContentView(R.layout.photo_list);
 
         user = new User();
-
-
+        user.createAlbum("asdf");
+        user.createAlbum("asdf");
+        user.createAlbum("adf");
+        user.createAlbum("df");
+        user.createAlbum("f");
+        user.createAlbum("af");
+        user.createAlbum("a");
+        user.createAlbum("s");
+        user.createAlbum("d");
+        user.createAlbum("asdfas");
+        user.createAlbum("assdfsff");
+        user.createAlbum("asdxcv");
+        user.createAlbum("asdfsfsfsfsf");
+        user.createAlbum("ddd");
+        user.createAlbum("asdfc");
+        user.createAlbum("asdfwer");
+        user.createAlbum("asdfq");
+        user.createAlbum("asdfe");
+        user.createAlbum("asdfw");
+        user.createAlbum("aswdf");
+        user.createAlbum("asedf");
+        user.createAlbum("asdqf");
+        albumList = new ArrayList<>();
+        for (int i = 0; i < user.getAlbums().size(); i++) {
+            albumList.add(user.getAlbums().get(i).getName());
+        }
         listView = findViewById(R.id.photos_list);
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, user.getAlbums()));
+                new ArrayAdapter<String>(this, R.layout.photos, albumList));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                view.setSelected(true);
+                currIndex = position;
+            }
+        });
+
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
     public void openAlbum(View view) {
-        int index = listView.getSelectedItemPosition();
 
-        //switches scene to Album view, given the currently selected album
-        FXMLLoader albumViewLoader = new FXMLLoader();
-        albumViewLoader.setLocation(getClass().getResource("/view/AlbumView.fxml"));
-        AnchorPane albumViewRoot = (AnchorPane)albumViewLoader.load();
-        Scene albumViewScene = new Scene(albumViewRoot);
-        AlbumViewController albumViewController = albumViewLoader.getController();
+        //If no Albums, output error
+        if (user.getAlbums().size() == 0) {
+            Bundle bundle = new Bundle();
+            bundle.putString(ARAlbumDialog.MESSAGE_KEY,
+                    "No Albums to select from");
+            DialogFragment newFragment = new ARAlbumDialog();
+            newFragment.setArguments(bundle);
+            newFragment.show(getSupportFragmentManager(), "badfields");
+            return;
+        }
 
-        albumViewController.start(stage, thisScene, albumViewScene, nonAdmin, index);
-        stage.setScene(albumViewScene);
-        stage.setTitle("AlbumView");
-        stage.setResizable(false);
-        stage.show();
+        //If no selected, output error
+        if (currIndex < 0) {
+            Bundle bundle = new Bundle();
+            bundle.putString(ARAlbumDialog.MESSAGE_KEY,
+                    "No Album selected");
+            DialogFragment newFragment = new ARAlbumDialog();
+            newFragment.setArguments(bundle);
+            newFragment.show(getSupportFragmentManager(), "badfields");
+            return;
+        }
 
+        //goes into open Album instance
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("USER", user);
+        bundle.putInt("INDEX", currIndex);
+        Intent intent = new Intent(this, AlbumView.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, OPEN_ALBUM_CODE);
     }
 
     public void createAlbum(View view) {
@@ -87,11 +141,10 @@ public class Photos extends AppCompatActivity {
         }
 
         //If no selected, output error
-        int index = listView.getSelectedItemPosition();
-        if (index < 0) {
+        if (currIndex < 0) {
             Bundle bundle = new Bundle();
             bundle.putString(ARAlbumDialog.MESSAGE_KEY,
-                    "No Albums to select from");
+                    "No Album selected");
             DialogFragment newFragment = new ARAlbumDialog();
             newFragment.setArguments(bundle);
             newFragment.show(getSupportFragmentManager(), "badfields");
@@ -100,12 +153,12 @@ public class Photos extends AppCompatActivity {
 
         //goes into add rename instance
         Bundle bundle = new Bundle();
-        bundle.putInt(AddRenameAlbum.ALBUM_INDEX, index);
+        bundle.putInt(AddRenameAlbum.ALBUM_INDEX, currIndex);
         bundle.putParcelableArrayList(AddRenameAlbum.ALBUM_LIST, user.getAlbums());
 
         Intent intent = new Intent(this, AddRenameAlbum.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent, RENAME_MOVIE_CODE);
+        startActivityForResult(intent, RENAME_ALBUM_CODE);
     }
 
     public void deleteAlbum(View view) {
@@ -122,8 +175,7 @@ public class Photos extends AppCompatActivity {
         }
 
         //If no selected, output error
-        int index = listView.getSelectedItemPosition();
-        if (index < 0) {
+        if (currIndex < 0) {
             Bundle bundle = new Bundle();
             bundle.putString(ARAlbumDialog.MESSAGE_KEY,
                     "No Album Selected");
@@ -134,7 +186,7 @@ public class Photos extends AppCompatActivity {
         }
 
         //Deletes album from user database
-        String albumDeleted = user.getAlbums().get(index).getName();
+        String albumDeleted = user.getAlbums().get(currIndex).getName();
         boolean deleted = user.deleteAlbum(albumDeleted);
         if (!deleted) {
             Bundle bundle = new Bundle();
@@ -146,29 +198,25 @@ public class Photos extends AppCompatActivity {
             return;
         }
 
+        //redo listview
+        albumList = new ArrayList<>();
+        for (int i = 0; i < user.getAlbums().size(); i++) {
+            albumList.add(user.getAlbums().get(i).getName());
+        }
         // redo the adapter to reflect change^K
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, user.getAlbums()));
+                new ArrayAdapter<>(this, R.layout.photos, albumList));
 
-
-        if (user.getAlbums().size() == 0) {
-            return;
-        }
-        else if (index < user.getAlbums().size()) {
-            listView.setSelection(index);
-        }
-        else {
-            listView.setSelection(index - 1);
-        }
+        currIndex = -1;
     }
 
     public void searchPhotos(View view) {
         //goes into search photos instance
-        //Bundle bundle = new Bundle();
-        //bundle.putParcelable("USER", user);
-        //Intent intent = new Intent(this, SearchPhotos.class);
-        //intent.putExtras(bundle);
-        //startActivityForResult(intent, 0);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("USER", user);
+        Intent intent = new Intent(this, SearchPhotos.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, SEARCH_PHOTOS_CODE);
     }
 
     protected void onActivityResult(int requestCode,
@@ -190,20 +238,31 @@ public class Photos extends AppCompatActivity {
             case CREATE_ALBUM_CODE:
                 newName = bundle.getString("NEW_NAME");
                 user.createAlbum(newName);
-            case RENAME_MOVIE_CODE:
+                break;
+            case RENAME_ALBUM_CODE:
                 newName = bundle.getString("NEW_NAME");
                 int oldIndex = bundle.getInt("INDEX");
                 String oldName = user.getAlbums().get(oldIndex).getName();
                 user.renameAlbum(oldName, newName);
+                break;
             case OPEN_ALBUM_CODE:
-
+                user = bundle.getParcelable("USER");
+                break;
             case SEARCH_PHOTOS_CODE:
+                user = bundle.getParcelable("USER");
+                break;
 
         }
-
+        System.out.println("got to this point");
+        //redo listview
+        albumList = new ArrayList<>();
+        for (int i = 0; i < user.getAlbums().size(); i++) {
+            albumList.add(user.getAlbums().get(i).getName());
+        }
         // redo the adapter to reflect change^K
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, user.getAlbums()));
+                new ArrayAdapter<>(this, R.layout.photos, albumList));
+        currIndex = -1;
     }
 
 }
