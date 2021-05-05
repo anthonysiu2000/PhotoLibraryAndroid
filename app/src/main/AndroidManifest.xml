@@ -26,8 +26,24 @@
                 android:value="com.example.photos.AlbumView" />
         </activity>
         <activity
+            android:name=".TagFilter"
+            android:label="@string/title_activity_album_view"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.SearchPhotos" />
+        </activity>
+        <activity
             android:name=".AlbumView"
             android:label="@string/title_activity_album_view"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.Photos" />
+        </activity>
+        <activity
+            android:name=".SearchPhotos"
+            android:label="@string/title_activity_search_photos"
             android:theme="@style/Theme.Photos.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

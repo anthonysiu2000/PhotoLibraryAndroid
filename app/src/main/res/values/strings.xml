@@ -16,8 +16,12 @@
     <string name="title_activity_album_view">Album View</string>
     <string name="title_activity_photo_edit">Photo Edit/Display</string>
     <string name="title_activity_move_photo">Move Photo</string>
+    <string name="title_activity_search_photos">Move Photo</string>
 
-    title_activity_photo_edit
+
+    <string name="oneTag">Search One Tag</string>
+    <string name="twoTagOr">Search Two Tags (OR)</string>
+    <string name="twoTagAnd">Search Two Tags (AND)</string>
 
     <string name="displayPhoto">Display Photo</string>
     <string name="addPhoto">Add Photo</string>
