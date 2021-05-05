@@ -23,8 +23,11 @@ public class User implements Parcelable {
         this.albumNumCreate = 0;
     }
 
+
     protected User(Parcel in) {
         albumList = in.createTypedArrayList(Album.CREATOR);
+        photoList = in.createTypedArrayList(Photo.CREATOR);
+        conList = in.createTypedArrayList(Connection.CREATOR);
         albumNumCreate = in.readInt();
     }
 
@@ -374,7 +377,6 @@ public class User implements Parcelable {
         }
         return numPhotos;
     }
-
 
 
     @Override

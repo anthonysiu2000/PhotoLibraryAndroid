@@ -61,6 +61,9 @@ public class AlbumView  extends AppCompatActivity {
             user = bundle.getParcelable("USER");
             albIndex = bundle.getInt("INDEX");
         }
+        if (user.getPhotos() == null) {
+            System.out.println(("user is null"));
+        }
 
         //gets array of paths
         pathList = new ArrayList<>();
