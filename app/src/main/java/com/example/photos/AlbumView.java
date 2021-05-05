@@ -142,14 +142,9 @@ public class AlbumView  extends AppCompatActivity {
     public void addPhoto(View view) {
 
         //selects image
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("USER", user);
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.putExtras(bundle);
         intent.setType("image/*");
-        System.out.println("gets to this pointzzz");
         startActivityForResult(intent, ADD_PHOTO_CODE);
-        System.out.println("gets to this pointzzz");
         currIndex = -1;
     }
 
@@ -281,7 +276,6 @@ public class AlbumView  extends AppCompatActivity {
                 user = bundle.getParcelable("USER");
                 break;
             case ADD_PHOTO_CODE:
-                user = bundle.getParcelable("USER");
                 System.out.println("gets to this point");
                 Bitmap thumbnail = intent.getParcelableExtra("data");
                 System.out.println("gets to this point");

@@ -79,24 +79,33 @@ public class User implements Parcelable {
         if (!foundAlbum) {
             return false;
         }
-        //removes connections linked to albums
-        for (int j = conList.size()-1; j >= 0; j--) {
-            if (conList.get(j).getAlbum().equals(aName)) {
-                conList.remove(j);
-            }
-        }
-        //removes photos with connection to this album only
-        for (int k = photoList.size()-1; k >= 0; k--) {
-            boolean photoFound = false;
-            String photoPath = photoList.get(k).getPath();
-            for (int l = 0; l < conList.size(); l++) {
-                if (photoPath.equals(conList.get(l).getPath())) {
-                    photoFound = true;
+        if (conList != null) {
+
+            //removes connections linked to albums
+            for (int j = conList.size()-1; j >= 0; j--) {
+                if (conList.get(j).getAlbum().equals(aName)) {
+                    conList.remove(j);
                 }
             }
-            if (!photoFound) {
-                photoList.remove(k);
+
+        }
+        if (photoList != null) {
+
+            //removes photos with connection to this album only
+            for (int k = photoList.size()-1; k >= 0; k--) {
+                boolean photoFound = false;
+                String photoPath = photoList.get(k).getPath();
+                for (int l = 0; l < conList.size(); l++) {
+                    if (photoPath.equals(conList.get(l).getPath())) {
+                        photoFound = true;
+                    }
+                }
+                if (!photoFound) {
+                    photoList.remove(k);
+                }
             }
+            return true;
+
         }
         return true;
     }
