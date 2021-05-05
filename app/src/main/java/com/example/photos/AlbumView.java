@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AlbumView  extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class AlbumView  extends AppCompatActivity {
     private int currIndex = -1;
     private ArrayList<String> pathList;
     private ArrayList<Bitmap> bitmapList;
+    private int pid = new Random().nextInt(100000);
 
     public static final int DISPLAY_PHOTO_CODE = 1;
     public static final int ADD_PHOTO_CODE = 2;
@@ -94,9 +96,9 @@ public class AlbumView  extends AppCompatActivity {
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
         //listView.setAdapter(
-        //        new PhotoAdapter(this, pathList));
+        //        new PhotoAdapter(this, bitmapList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, bitmapList));
+               new ArrayAdapter<>(this, R.layout.photos, pathList));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,6 +107,7 @@ public class AlbumView  extends AppCompatActivity {
                 currIndex = position;
             }
         });
+        pid = new Random().nextInt(100000);
     }
 
 
@@ -219,9 +222,9 @@ public class AlbumView  extends AppCompatActivity {
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
         //listView.setAdapter(
-        //        new PhotoAdapter(this, pathList));
+        //        new PhotoAdapter(this, bitmapList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, bitmapList));
+                new ArrayAdapter<>(this, R.layout.photos, pathList));
 
         currIndex = -1;
     }
@@ -279,10 +282,9 @@ public class AlbumView  extends AppCompatActivity {
                 user = bundle.getParcelable("USER");
                 break;
             case ADD_PHOTO_CODE:
-                System.out.println("gets to this point");
                 Bitmap thumbnail = intent.getParcelableExtra("data");
-                System.out.println("gets to this point");
-                user.addPhoto(user.getAlbums().get(albIndex).getName(), "asdf", thumbnail);
+                user.addPhoto(user.getAlbums().get(albIndex).getName(), Integer.toString(pid), thumbnail);
+                pid = new Random().nextInt(100000);
                 break;
             case MOVE_PHOTO_CODE:
                 String nAlbName = bundle.getString("NEWNAME");
@@ -311,7 +313,11 @@ public class AlbumView  extends AppCompatActivity {
             for (int i = 0; i < pathList.size(); i++) {
                 for (int j = 0; j < user.getPhotos().size(); j++) {
                     if (user.getPhotos().get(j).getPath().equals(pathList.get(i))) {
+                        System.out.println("gets to this point");
+                        System.out.println(user.getPhotos().size());
+
                         bitmapList.add(user.getPhotos().get(j).bitmap);
+
                     }
                 }
             }
@@ -320,9 +326,9 @@ public class AlbumView  extends AppCompatActivity {
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
         //listView.setAdapter(
-        //        new PhotoAdapter(this, pathList));
+        //new PhotoAdapter(this, bitmapList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, bitmapList));
+                new ArrayAdapter<>(this, R.layout.photos, pathList));
         currIndex = -1;
     }
 
