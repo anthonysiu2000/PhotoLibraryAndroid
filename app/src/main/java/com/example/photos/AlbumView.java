@@ -145,7 +145,7 @@ public class AlbumView  extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.putExtra(bundle);
+        intent.putExtras(bundle);
         intent.setType("image/*");
         System.out.println("gets to this pointzzz");
         startActivityForResult(intent, ADD_PHOTO_CODE);
