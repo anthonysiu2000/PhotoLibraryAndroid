@@ -142,7 +142,10 @@ public class AlbumView  extends AppCompatActivity {
     public void addPhoto(View view) {
 
         //selects image
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("USER", user);
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(bundle);
         intent.setType("image/*");
         System.out.println("gets to this pointzzz");
         startActivityForResult(intent, ADD_PHOTO_CODE);
@@ -270,9 +273,6 @@ public class AlbumView  extends AppCompatActivity {
         }
 
         Bundle bundle = intent.getExtras();
-        if (bundle == null) {
-            return;
-        }
 
         String newName;
         //Code that directly executes actions in the database, sans delete
@@ -281,10 +281,11 @@ public class AlbumView  extends AppCompatActivity {
                 user = bundle.getParcelable("USER");
                 break;
             case ADD_PHOTO_CODE:
+                user = bundle.getParcelable("USER");
                 System.out.println("gets to this point");
-                Bitmap thumbnail = bundle.getParcelable("data");
+                Bitmap thumbnail = intent.getParcelableExtra("data");
                 System.out.println("gets to this point");
-                user.addPhoto(user.getAlbums().get(albIndex).getName(), thumbnail.toString(), thumbnail);
+                user.addPhoto(user.getAlbums().get(albIndex).getName(), "asdf", thumbnail);
                 break;
             case MOVE_PHOTO_CODE:
                 String nAlbName = bundle.getString("NEWNAME");

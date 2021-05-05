@@ -138,18 +138,25 @@ public class User implements Parcelable {
             return false;
         }
         //checks if a connection is already established between photo and album
-        for (int j = 0; j < conList.size(); j++) {
-            if (conList.get(j).getAlbum().equals(aName)) {
-                if (conList.get(j).getPath().equals(photo.getPath())) {
-                    return false;
+        if (conList != null) {
+
+            for (int j = 0; j < conList.size(); j++) {
+                if (conList.get(j).getAlbum().equals(aName)) {
+                    if (conList.get(j).getPath().equals(photo.getPath())) {
+                        return false;
+                    }
                 }
             }
+
         }
-        //if photo does not exist in database, adds it
-        for (int k = 0; k < photoList.size(); k++) {
-            if (photoList.get(k).getPath().equals(photo.getPath())) {
-                photoFound = true;
-                break;
+        if (photoList != null) {
+
+            //if photo does not exist in database, adds it
+            for (int k = 0; k < photoList.size(); k++) {
+                if (photoList.get(k).getPath().equals(photo.getPath())) {
+                    photoFound = true;
+                    break;
+                }
             }
         }
         if (!photoFound) {
