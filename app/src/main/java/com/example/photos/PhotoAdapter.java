@@ -2,6 +2,7 @@ package com.example.photos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class PhotoAdapter extends ArrayAdapter {
-    private Integer[] imageid;
+    private ArrayList<Bitmap> bitmapList;
     private Activity context;
 
-    public PhotoAdapter(Activity context, Integer[] imageid) {
-        super(context, R.layout.thumbnail, imageid);
+    public PhotoAdapter(Activity context, ArrayList<Bitmap> bitmapList) {
+        super(context, R.layout.thumbnail, bitmapList);
         this.context = context;
-        this.imageid = imageid;
+        this.bitmapList = bitmapList;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class PhotoAdapter extends ArrayAdapter {
             row = inflater.inflate(R.layout.thumbnail, null, true);
         ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
 
-        imageView.setImageResource(imageid[position]);
+        imageView.setImageBitmap(bitmapList.get(position));
         return  row;
     }
 }

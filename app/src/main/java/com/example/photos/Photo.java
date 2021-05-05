@@ -1,5 +1,6 @@
 package com.example.photos;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,18 +13,21 @@ public class Photo implements Parcelable {
     //fields
     private String filePath;
     protected ArrayList<Tag> tags;
+    public Bitmap bitmap;
 
     //constructor
-    public Photo(File imageFile) {
-        this.filePath = imageFile.getPath();
-        Date date = new Date(imageFile.lastModified());
+    public Photo(String filePath) {
+        this.filePath = filePath;
         this.tags = new ArrayList<Tag>();
+        this.bitmap = null;
 
     }
+
 
     protected Photo(Parcel in) {
         filePath = in.readString();
         tags = in.createTypedArrayList(Tag.CREATOR);
+        bitmap = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {
@@ -61,6 +65,7 @@ public class Photo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(filePath);
-        dest.writeList(tags);
+        dest.writeTypedList(tags);
+        dest.writeParcelable(bitmap, flags);
     }
 }

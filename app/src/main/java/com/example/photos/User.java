@@ -1,4 +1,5 @@
 package com.example.photos;
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -53,6 +54,7 @@ public class User implements Parcelable {
     public ArrayList<Connection> getConnections() {
         return conList;
     }
+
 
     //creates a new album; returns true if successful
     public boolean createAlbum(String aName) {
@@ -120,8 +122,9 @@ public class User implements Parcelable {
     }
 
     //adds a new photo into an album: returns true if successful
-    public boolean addPhoto(String aName, File photoFile) {
-        Photo photo = new Photo(photoFile);
+    public boolean addPhoto(String aName, String photoPath, Bitmap bitmap) {
+        Photo photo = new Photo(photoPath);
+        photo.bitmap = bitmap;
         boolean albumFound = false;
         boolean photoFound = false;
         //finds the album that we want to insert photo

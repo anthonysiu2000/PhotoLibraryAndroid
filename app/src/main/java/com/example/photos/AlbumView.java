@@ -2,6 +2,8 @@ package com.example.photos;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,7 @@ public class AlbumView  extends AppCompatActivity {
     private int albIndex;
     private int currIndex = -1;
     private ArrayList<String> pathList;
+    private ArrayList<Bitmap> bitmapList;
 
     public static final int DISPLAY_PHOTO_CODE = 1;
     public static final int ADD_PHOTO_CODE = 2;
@@ -61,6 +64,7 @@ public class AlbumView  extends AppCompatActivity {
 
         //gets array of paths
         pathList = new ArrayList<>();
+        bitmapList = new ArrayList<>();
         if (user.getConnections() != null) {
             for (int i = 0; i < user.getConnections().size(); i++) {
                 //finds connections that have the same album as this one
@@ -72,13 +76,24 @@ public class AlbumView  extends AppCompatActivity {
                 }
             }
         }
+        System.out.println("gets to this pointaa");
+        if (pathList.size() > 0) {
+            System.out.println("gets to this pointaa");
+            for (int i = 0; i < pathList.size(); i++) {
+                for (int j = 0; j < user.getPhotos().size(); j++) {
+                    if (user.getPhotos().get(j).getPath().equals(pathList.get(i))) {
+                        bitmapList.add(user.getPhotos().get(j).bitmap);
+                    }
+                }
+            }
+        }
 
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
         //listView.setAdapter(
         //        new PhotoAdapter(this, pathList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, pathList));
+                new ArrayAdapter<>(this, R.layout.photos, bitmapList));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,9 +144,9 @@ public class AlbumView  extends AppCompatActivity {
         //selects image
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, ADD_PHOTO_CODE);
-        }
+        System.out.println("gets to this pointzzz");
+        startActivityForResult(intent, ADD_PHOTO_CODE);
+        System.out.println("gets to this pointzzz");
         currIndex = -1;
     }
 
@@ -176,21 +191,36 @@ public class AlbumView  extends AppCompatActivity {
             return;
         }
 
-        //redo listview
+        //gets array of paths
         pathList = new ArrayList<>();
-        for (int i = 0; i < user.getConnections().size(); i++) {
-            //finds connections that have the same album as this one
-            String conAlbumName = user.getConnections().get(i).getAlbum();
-            String thisAlbumName = user.getAlbums().get(albIndex).getName();
-            if (conAlbumName.equals(thisAlbumName)) {
-                pathList.add(user.getConnections().get(i).getPath());
+        bitmapList = new ArrayList<>();
+        if (user.getConnections() != null) {
+            for (int i = 0; i < user.getConnections().size(); i++) {
+                //finds connections that have the same album as this one
+                String conAlbumName = user.getConnections().get(i).getAlbum();
+                String thisAlbumName = user.getAlbums().get(albIndex).getName();
+                if (conAlbumName.equals(thisAlbumName)) {
+                    pathList.add(user.getConnections().get(i).getPath());
 
+                }
+            }
+        }
+        if (pathList.size() != 0) {
+            for (int i = 0; i < pathList.size(); i++) {
+                for (int j = 0; j < user.getPhotos().size(); j++) {
+                    if (user.getPhotos().get(j).getPath().equals(pathList.get(i))) {
+                        bitmapList.add(user.getPhotos().get(j).bitmap);
+                    }
+                }
             }
         }
 
-        // redo the adapter to reflect change^K
+        // get the fields and sets the list view to thumbnails
+        listView = findViewById(R.id.literal_photo_list);
+        //listView.setAdapter(
+        //        new PhotoAdapter(this, pathList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, pathList));
+                new ArrayAdapter<>(this, R.layout.photos, bitmapList));
 
         currIndex = -1;
     }
@@ -248,36 +278,53 @@ public class AlbumView  extends AppCompatActivity {
         //Code that directly executes actions in the database, sans delete
         switch (requestCode) {
             case DISPLAY_PHOTO_CODE:
-                newName = bundle.getString("NEW_NAME");
-                user.createAlbum(newName);
+                user = bundle.getParcelable("USER");
                 break;
             case ADD_PHOTO_CODE:
+                System.out.println("gets to this point");
                 Bitmap thumbnail = bundle.getParcelable("data");
-                Uri fullPhotoUri = intent.getData();
-                System.out.println(fullPhotoUri.getPath());
-                File file;
+                System.out.println("gets to this point");
+                user.addPhoto(user.getAlbums().get(albIndex).getName(), thumbnail.toString(), thumbnail);
                 break;
             case MOVE_PHOTO_CODE:
-                user = bundle.getParcelable("USER");
+                String nAlbName = bundle.getString("NEWNAME");
+                String oAlbName = user.getAlbums().get(bundle.getInt("INDEX")).getName();
+                String photoPath = bundle.getString("PATH");
+                user.movePhoto(oAlbName, nAlbName, photoPath);
                 break;
 
         }
 
-        //redo listview
+        //gets array of paths
         pathList = new ArrayList<>();
-        for (int i = 0; i < user.getConnections().size(); i++) {
-            //finds connections that have the same album as this one
-            String conAlbumName = user.getConnections().get(i).getAlbum();
-            String thisAlbumName = user.getAlbums().get(albIndex).getName();
-            if (conAlbumName.equals(thisAlbumName)) {
-                pathList.add(user.getConnections().get(i).getPath());
+        bitmapList = new ArrayList<>();
+        if (user.getConnections() != null) {
+            for (int i = 0; i < user.getConnections().size(); i++) {
+                //finds connections that have the same album as this one
+                String conAlbumName = user.getConnections().get(i).getAlbum();
+                String thisAlbumName = user.getAlbums().get(albIndex).getName();
+                if (conAlbumName.equals(thisAlbumName)) {
+                    pathList.add(user.getConnections().get(i).getPath());
 
+                }
+            }
+        }
+        if (pathList.size() != 0) {
+            for (int i = 0; i < pathList.size(); i++) {
+                for (int j = 0; j < user.getPhotos().size(); j++) {
+                    if (user.getPhotos().get(j).getPath().equals(pathList.get(i))) {
+                        bitmapList.add(user.getPhotos().get(j).bitmap);
+                    }
+                }
             }
         }
 
-        // redo the adapter to reflect change^K
+        // get the fields and sets the list view to thumbnails
+        listView = findViewById(R.id.literal_photo_list);
+        //listView.setAdapter(
+        //        new PhotoAdapter(this, pathList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, pathList));
+                new ArrayAdapter<>(this, R.layout.photos, bitmapList));
         currIndex = -1;
     }
 
