@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -95,10 +98,10 @@ public class AlbumView  extends AppCompatActivity {
 
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
-        //listView.setAdapter(
-        //        new PhotoAdapter(this, bitmapList));
         listView.setAdapter(
-               new ArrayAdapter<>(this, R.layout.photos, pathList));
+                new PhotoAdapter(this, bitmapList));
+        //listView.setAdapter(
+        //       new ArrayAdapter<>(this, R.layout.photos, pathList));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -221,10 +224,10 @@ public class AlbumView  extends AppCompatActivity {
 
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
-        //listView.setAdapter(
-        //        new PhotoAdapter(this, bitmapList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, pathList));
+                new PhotoAdapter(this, bitmapList));
+        //listView.setAdapter(
+        //       new ArrayAdapter<>(this, R.layout.photos, pathList));
 
         currIndex = -1;
     }
@@ -282,7 +285,16 @@ public class AlbumView  extends AppCompatActivity {
                 user = bundle.getParcelable("USER");
                 break;
             case ADD_PHOTO_CODE:
-                Bitmap thumbnail = intent.getParcelableExtra("data");
+                Bitmap thumbnail = null;
+                try {
+                    thumbnail = MediaStore.Images.Media.getBitmap(this.getContentResolver(), intent.getData());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (thumbnail == null) {
+
+                    System.out.println("gets to this sssspoint");
+                }
                 user.addPhoto(user.getAlbums().get(albIndex).getName(), Integer.toString(pid), thumbnail);
                 pid = new Random().nextInt(100000);
                 break;
@@ -314,7 +326,9 @@ public class AlbumView  extends AppCompatActivity {
                 for (int j = 0; j < user.getPhotos().size(); j++) {
                     if (user.getPhotos().get(j).getPath().equals(pathList.get(i))) {
                         System.out.println("gets to this point");
-                        System.out.println(user.getPhotos().size());
+                        if (user.getPhotos().get(j).bitmap == null) {
+                            System.out.println(user.getPhotos().size());
+                        }
 
                         bitmapList.add(user.getPhotos().get(j).bitmap);
 
@@ -325,10 +339,10 @@ public class AlbumView  extends AppCompatActivity {
 
         // get the fields and sets the list view to thumbnails
         listView = findViewById(R.id.literal_photo_list);
-        //listView.setAdapter(
-        //new PhotoAdapter(this, bitmapList));
         listView.setAdapter(
-                new ArrayAdapter<>(this, R.layout.photos, pathList));
+                new PhotoAdapter(this, bitmapList));
+        //listView.setAdapter(
+        //       new ArrayAdapter<>(this, R.layout.photos, pathList));
         currIndex = -1;
     }
 
