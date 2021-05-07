@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:padding="20dp">
+
+    <Button
+        android:id="@+id/buttonAddT"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="addTag"
+        android:text="@string/addTag"
+        android:textSize="16sp"
+        app:backgroundTint="@null" />
+
+    <Button
+        android:id="@+id/buttonDeleteT"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="deleteTag"
+        android:text="@string/deleteTag"
+        android:textSize="16sp"
+        app:backgroundTint="@null" />
+
+    <Button
+        android:id="@+id/buttonForward"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="slideshowForward"
+        android:text="@string/slideshowForward"
+        android:textSize="16sp"
+        app:backgroundTint="@null" />
+
+    <Button
+        android:id="@+id/ButtonReverse"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="slideshowReverse"
+        android:text="@string/slideshowReverse"
+        android:textSize="16sp"
+        app:backgroundTint="@null" />
+</LinearLayout>
+

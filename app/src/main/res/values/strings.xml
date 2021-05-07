@@ -28,4 +28,9 @@
     <string name="deletePhoto">Delete Photo</string>
     <string name="movePhoto">Move Photo</string>
 
+    <string name="slideshowReverse">Slideshow Reverse</string>
+    <string name="slideshowForward">Slideshow Forward</string>
+    <string name="addTag">Add Tag</string>
+    <string name="deleteTag">Delete Tag</string>
+
 </resources>

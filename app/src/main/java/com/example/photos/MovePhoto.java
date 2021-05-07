@@ -1,6 +1,7 @@
 package com.example.photos;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -19,7 +20,7 @@ public class MovePhoto extends AppCompatActivity {
     private int albumIndex;
     private User user;
     private EditText newAlbumName;
-    private String path;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class MovePhoto extends AppCompatActivity {
         if (bundle != null) {
             user = bundle.getParcelable("USER");
             albumIndex = bundle.getInt("INDEX");
-            path = bundle.getString("PATH");
+            bitmap = bundle.getParcelable("BITMAP");
             if (albumIndex > -1) {
                 newAlbumName.setText(user.getAlbums().get(albumIndex).getName());
             }
@@ -99,7 +100,7 @@ public class MovePhoto extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("NEWALBUM", newName);
         bundle.putInt("INDEX", albumIndex);
-        bundle.putString("PATH", path);
+        bundle.putParcelable("BITMAP", bitmap);
 
         // send back to caller
         Intent intent = new Intent();

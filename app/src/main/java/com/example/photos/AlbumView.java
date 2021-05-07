@@ -84,9 +84,7 @@ public class AlbumView  extends AppCompatActivity {
                 }
             }
         }
-        System.out.println("gets to this pointaa");
         if (pathList.size() > 0) {
-            System.out.println("gets to this pointaa");
             for (int i = 0; i < pathList.size(); i++) {
                 for (int j = 0; j < user.getPhotos().size(); j++) {
                     if (user.getPhotos().get(j).getPath().equals(pathList.get(i))) {
@@ -142,7 +140,7 @@ public class AlbumView  extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
         bundle.putInt("INDEX", albIndex);
-        bundle.putString("PATH", pathList.get(currIndex));
+        bundle.putParcelable("BITMAP", bitmapList.get(currIndex));
         Intent intent = new Intent(this, PhotoEdit.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, DISPLAY_PHOTO_CODE);
@@ -262,7 +260,7 @@ public class AlbumView  extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
         bundle.putInt("INDEX", albIndex);
-        bundle.putString("PATH", pathList.get(currIndex));
+        bundle.putParcelable("BITMAP", bitmapList.get(currIndex));
 
         Intent intent = new Intent(this, MovePhoto.class);
         intent.putExtras(bundle);
