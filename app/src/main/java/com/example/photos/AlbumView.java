@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -140,7 +141,11 @@ public class AlbumView  extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
         bundle.putInt("INDEX", albIndex);
-        bundle.putParcelable("BITMAP", bitmapList.get(currIndex));
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapList.get(currIndex).compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        bundle.putByteArray("BITMAP", bytes);
+
         Intent intent = new Intent(this, PhotoEdit.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, DISPLAY_PHOTO_CODE);
@@ -260,7 +265,10 @@ public class AlbumView  extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
         bundle.putInt("INDEX", albIndex);
-        bundle.putParcelable("BITMAP", bitmapList.get(currIndex));
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapList.get(currIndex).compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        bundle.putByteArray("BITMAP", bytes);
 
         Intent intent = new Intent(this, MovePhoto.class);
         intent.putExtras(bundle);
@@ -289,10 +297,7 @@ public class AlbumView  extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (thumbnail == null) {
 
-                    System.out.println("gets to this sssspoint");
-                }
                 user.addPhoto(user.getAlbums().get(albIndex).getName(), Integer.toString(pid), thumbnail);
                 pid = new Random().nextInt(100000);
                 break;
@@ -300,7 +305,8 @@ public class AlbumView  extends AppCompatActivity {
                 String nAlbName = bundle.getString("NEWNAME");
                 String oAlbName = user.getAlbums().get(bundle.getInt("INDEX")).getName();
                 String photoPath = bundle.getString("PATH");
-                user.movePhoto(oAlbName, nAlbName, photoPath);
+                user.removePhoto(oAlbName, photoPath);
+                user.addPhoto(nAlbName, photoPath, bitmapList.get(currIndex));
                 break;
 
         }

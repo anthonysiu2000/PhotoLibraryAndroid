@@ -2,12 +2,14 @@ package com.example.photos;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class PhotoEdit extends AppCompatActivity {
@@ -47,9 +49,13 @@ public class PhotoEdit extends AppCompatActivity {
         if (bundle != null) {
             user = bundle.getParcelable("USER");
             albIndex = bundle.getInt("INDEX");
-            bitmap = bundle.getParcelable("BITMAP");
+            byte[] bytes = bundle.getByteArray("BITMAP");
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         }
 
+        if (bitmap != null) {
+            System.out.println("its null bro");
+        }
         // get the fields and sets the list view to thumbnails
         imageView.setImageBitmap(bitmap);
     }
@@ -60,7 +66,10 @@ public class PhotoEdit extends AppCompatActivity {
         //goes into move photo instance
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
-        bundle.putParcelable("BITMAP", bitmap);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        bundle.putByteArray("BITMAP", bytes);
         bundle.putBoolean("ADD", true);
 
         Intent intent = new Intent(this, EditTag.class);
@@ -74,7 +83,10 @@ public class PhotoEdit extends AppCompatActivity {
         //goes into move photo instance
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER", user);
-        bundle.putParcelable("BITMAP", bitmap);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        bundle.putByteArray("BITMAP", bytes);
         bundle.putBoolean("ADD", false);
 
         Intent intent = new Intent(this, EditTag.class);

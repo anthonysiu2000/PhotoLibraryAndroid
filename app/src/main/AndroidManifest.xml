@@ -18,6 +18,14 @@
                 android:value="com.example.photos.AlbumView" />
         </activity>
         <activity
+            android:name=".EditTag"
+            android:label="@string/title_edit_tag"
+            android:theme="@style/Theme.Photos.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photos.PhotoEdit" />
+        </activity>
+        <activity
             android:name=".MovePhoto"
             android:label="@string/title_activity_move_photo"
             android:theme="@style/Theme.Photos.NoActionBar">
@@ -27,7 +35,7 @@
         </activity>
         <activity
             android:name=".TagFilter"
-            android:label="@string/title_activity_album_view"
+            android:label="@string/title_activity_tag_filter"
             android:theme="@style/Theme.Photos.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

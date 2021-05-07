@@ -53,9 +53,22 @@ public class Photo implements Parcelable {
     }
 
     //adds a tag
-    public void addTag(Tag inputTag) {
+    public boolean addTag(Tag inputTag) {
         tags.add(inputTag);
+        return true;
     }
+
+    //removes a tag
+    public boolean removeTag(Tag inputTag) {
+        for (int i = 0; i < tags.size(); i++) {
+            if (inputTag.getName().equals(tags.get(i).getName()) && inputTag.getValue().equals(tags.get(i).getValue())) {
+                tags.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public int describeContents() {

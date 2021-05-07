@@ -2,6 +2,7 @@ package com.example.photos;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class MovePhoto extends AppCompatActivity {
@@ -50,7 +52,8 @@ public class MovePhoto extends AppCompatActivity {
         if (bundle != null) {
             user = bundle.getParcelable("USER");
             albumIndex = bundle.getInt("INDEX");
-            bitmap = bundle.getParcelable("BITMAP");
+            byte[] bytes = bundle.getByteArray("BITMAP");
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             if (albumIndex > -1) {
                 newAlbumName.setText(user.getAlbums().get(albumIndex).getName());
             }
@@ -83,24 +86,40 @@ public class MovePhoto extends AppCompatActivity {
             return;
         }
 
-        //makes sure album name doesn't already exist
+        boolean albumFound = false;
+        //makes sure album name already exists
         for (int i = 0; i < user.getAlbums().size(); i++) {
             if (user.getAlbums().get(i).getName().equals(newName)) {
-                Bundle bundle = new Bundle();
-                bundle.putString(ARAlbumDialog.MESSAGE_KEY,
-                        "Album name already exists");
-                DialogFragment newFragment = new ARAlbumDialog();
-                newFragment.setArguments(bundle);
-                newFragment.show(getSupportFragmentManager(), "badfields");
-                return;
+                albumFound = true;
+                break;
             }
         }
+        if (!albumFound) {
+            Bundle bundle = new Bundle();
+            bundle.putString(ARAlbumDialog.MESSAGE_KEY,
+                    "Album name not found");
+            DialogFragment newFragment = new ARAlbumDialog();
+            newFragment.setArguments(bundle);
+            newFragment.show(getSupportFragmentManager(), "badfields");
+            return;
+        }
+
+        //get current photo path
+        ArrayList<Photo> photoList = user.getPhotos();
+        String photoPath = null;
+        for (int i = 0; i < photoList.size(); i++) {
+            if (photoList.get(i).bitmap.equals(bitmap)) {
+                photoPath = photoList.get(i).getPath();
+                break;
+            }
+        }
+
 
         // make Bundle
         Bundle bundle = new Bundle();
         bundle.putString("NEWALBUM", newName);
         bundle.putInt("INDEX", albumIndex);
-        bundle.putParcelable("BITMAP", bitmap);
+        bundle.putString("PATH", photoPath);
 
         // send back to caller
         Intent intent = new Intent();
